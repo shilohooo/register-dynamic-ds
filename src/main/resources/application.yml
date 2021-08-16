@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13306/data_sync_origin?useSSL=false&characterEncoding=utf8
+    username: root
+    password: Qt123456@
