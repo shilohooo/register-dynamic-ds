@@ -14,6 +14,8 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 /**
+ * 项目启动成功后通过工厂对象将{@link JdbcTemplate}对象注册到容器中
+ *
  * @author shiloh
  * @date 2021/8/16 15:59
  */
@@ -26,6 +28,9 @@ public class RegisterDynamicJdbcTemplateRunner implements CommandLineRunner {
 
     private final DataSourceConfigDao dataSourceConfigDao;
 
+    /**
+     * {@link JdbcTemplate} Bean名称格式化模板
+     */
     private static final String BEAN_NAME_TEMPLATE = "%sJdbcTemplate";
 
     @Override
@@ -36,14 +41,5 @@ public class RegisterDynamicJdbcTemplateRunner implements CommandLineRunner {
             factory.registerJdbcTemplate(beanName, dataSourceMap.get(dataSourceConfig.getSystemCode()));
         });
         log.info("Inject dynamic JdbcTemplate completed.");
-        printRegisteredJdbcTemplate();
-    }
-
-    private void printRegisteredJdbcTemplate() {
-        final Map<String, JdbcTemplate> jdbcTemplateMap = SpringUtils.getBeansOfType(JdbcTemplate.class);
-        jdbcTemplateMap.forEach((beanName, jdbcTemplate) -> {
-            log.info("JdbcTemplate bean name: {}", beanName);
-            log.info("JdbcTemplate bean info: {}", jdbcTemplate);
-        });
     }
 }

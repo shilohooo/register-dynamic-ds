@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
+ * 项目启动成功后通过工厂对象将{@link NamedParameterJdbcTemplate}对象注册到容器中
+ *
  * @author shiloh
  * @date 2021/8/16 16:07
  */
@@ -30,9 +32,8 @@ public class RegisterDynamicNamedParameterJdbcTemplateRunner implements CommandL
 
     private static final String JDBC_TEMPLATE_BEAN_NAME_TEMPLATE = "%sJdbcTemplate";
 
-
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         final Map<String, JdbcTemplate> jdbcTemplateMap = SpringUtils.getBeansOfType(JdbcTemplate.class);
         dataSourceConfigDao.findAll().forEach(dataSourceConfig -> {
             final String beanName = String.format(BEAN_NAME_TEMPLATE, dataSourceConfig.getSystemCode());
@@ -41,19 +42,5 @@ public class RegisterDynamicNamedParameterJdbcTemplateRunner implements CommandL
             factory.registerNamedParameterJdbcTemplate(beanName, jdbcTemplateMap.get(jdbcTemplateBeanName));
         });
         log.info("Inject dynamic NamedParameterJdbcTemplate completed.");
-        printRegisteredNamedParameterJdbcTemplateInfo();
-    }
-
-    private void printRegisteredNamedParameterJdbcTemplateInfo() {
-        final Map<String, NamedParameterJdbcTemplate> namedParameterJdbcTemplateMap = SpringUtils.getBeansOfType(
-                NamedParameterJdbcTemplate.class
-        );
-        namedParameterJdbcTemplateMap.forEach((beanName, namedParameterJdbcTemplate) -> {
-            log.info("NamedParameterJdbcTemplate bean name: {}", beanName);
-            log.info("NamedParameterJdbcTemplate bean info: {}", namedParameterJdbcTemplate);
-            log.info("NamedParameterJdbcTemplate.getJdbcTemplate() bean name: {}",
-                    namedParameterJdbcTemplate.getJdbcTemplate());
-
-        });
     }
 }

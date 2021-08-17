@@ -13,6 +13,8 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 /**
+ * 项目启动成功后将{@link org.springframework.jdbc.datasource.DataSourceTransactionManager}对象注册到容器中
+ *
  * @author shiloh
  * @date 2021/8/16 15:21
  */

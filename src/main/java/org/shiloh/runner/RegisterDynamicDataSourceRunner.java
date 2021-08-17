@@ -9,6 +9,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
+ * 项目启动成功后通过工厂对象将动态数据源注册到容器中
+ *
  * @author shiloh
  * @date 2021/8/16 14:49
  */
